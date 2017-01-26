@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/blutarche/node-example#readme",
   "dependencies": {
-    "express": "^4.14.0"
+    "body-parser": "^1.16.0",
+    "express": "^4.14.0",
+    "express-validator": "^3.1.2",
+    "mongoose": "^4.7.8"
   }
 }
