@@ -1,0 +1,22 @@
+{
+  "name": "node-example",
+  "version": "1.0.0",
+  "description": "Example of how-to node.js in a nutshell (pun intended).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blutarche/node-example.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blutarche/node-example/issues"
+  },
+  "homepage": "https://github.com/blutarche/node-example#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
