@@ -6,7 +6,6 @@ const expressValidator = require('express-validator')
 
 const app = express()
 
-
 mongoose.connect('mongodb://test01:qwerty@ds129469.mlab.com:29469/node-test')
 
 app.use(bodyParser.json())
