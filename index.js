@@ -11,11 +11,7 @@ const paypalCredential = require('./credentials/paypal.js');
 const app = express()
 
 mongoose.connect(configDB.url)
-paypal.configure({
-	'mode': 'sandbox',
-	'client_id': paypalCredential.client_id,
-	'client_secret': paypalCredential.client_secret 
-})
+paypal.configure(paypalCredential.first)
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
