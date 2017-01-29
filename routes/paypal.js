@@ -15,8 +15,8 @@ router.post('/payment/create', (req, res) =>{
 	    } else {
 	        console.log("Create Payment Response")
 	        const redirect_link = payment.links.filter(link => link.rel === 'approval_url')[0].href
-	        const execute_link = payment.links.filter(link => link.rel === 'execute')[0].href
 	        console.log(payment)
+	        
 	        console.log('redirecting to '+ redirect_link)
 	        res.redirect(payment.httpStatusCode, redirect_link)       
 	    }
@@ -29,16 +29,20 @@ router.get('/payment/execute', (req, res) => {
     console.log(paymentId)
     const payerId = req.query.PayerID
     console.log(payerId)
+
     const execute_payment_json = {
     	"payer_id": payerId
     }
+
     paypal.payment.execute(paymentId, execute_payment_json,(error, payment) => {
 	    if (error) {
 	        console.log(error.response)
 	        throw error
 	    } else {
 	        console.log("Get Payment Response")
-	        res.send(payment)
+	        //res.send(payment)
+	        const redirect_link = payment.transactions[0].related_resources[0].authorization.links.filter(link => link.rel === 'self')[0].href
+	        res.redirect(payment.httpStatusCode, redirect_link)
 	    }
 	})
 })
