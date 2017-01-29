@@ -17,29 +17,32 @@ router.post('/payment/create', (req, res) =>{
 	        const redirect_link = payment.links.filter(link => link.rel === 'approval_url')[0].href
 	        const execute_link = payment.links.filter(link => link.rel === 'execute')[0].href
 	        console.log(payment)
+	        //req.session.paymentId = payment.id
+	        //console.log(req.session.paymentId)
 	        console.log('redirecting to '+ redirect_link)
-	        res.redirect(payment.httpStatusCode, redirect_link)
-
-	        const paymentId = payment.id
-	        console.log(paymentId)
-	        const payerId = redirect_link.replace('https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=', '')
-	        console.log(payerId)
-	        const execute_payment_json = {
-	        	"payer_id": payerId,
-			    "transactions": req.body.transactions.amount
-	        }
-	        paypal.payment.execute(paymentId, execute_payment_json,(error, payment) => {
-			    if (error) {
-			        console.log(error.response);
-			        throw error;
-			    } else {
-			        console.log("Get Payment Response");
-			        console.log(JSON.stringify(payment));
-			    }
-			});
+	        res.redirect(payment.httpStatusCode, redirect_link)       
 	    }
 	})
 
+})
+
+router.get('/payment/execute', (req, res) => {
+	const paymentId = req.query.paymentId
+    console.log(paymentId)
+    const payerId = req.query.PayerID
+    console.log(payerId)
+    const execute_payment_json = {
+    	"payer_id": payerId
+    }
+    paypal.payment.execute(paymentId, execute_payment_json,(error, payment) => {
+	    if (error) {
+	        console.log(error.response)
+	        throw error
+	    } else {
+	        console.log("Get Payment Response")
+	        res.send({success: true})
+	    }
+	})
 })
 
 module.exports = router
