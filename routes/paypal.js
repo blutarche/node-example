@@ -17,8 +17,6 @@ router.post('/payment/create', (req, res) =>{
 	        const redirect_link = payment.links.filter(link => link.rel === 'approval_url')[0].href
 	        const execute_link = payment.links.filter(link => link.rel === 'execute')[0].href
 	        console.log(payment)
-	        //req.session.paymentId = payment.id
-	        //console.log(req.session.paymentId)
 	        console.log('redirecting to '+ redirect_link)
 	        res.redirect(payment.httpStatusCode, redirect_link)       
 	    }
@@ -40,7 +38,7 @@ router.get('/payment/execute', (req, res) => {
 	        throw error
 	    } else {
 	        console.log("Get Payment Response")
-	        res.send({success: true})
+	        res.send(payment)
 	    }
 	})
 })
