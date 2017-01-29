@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/blutarche/node-example.git"
+    "url": "git+https://github.com/melpst/node-example.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/blutarche/node-example/issues"
+    "url": "https://github.com/melpst/node-example/issues"
   },
-  "homepage": "https://github.com/blutarche/node-example#readme",
+  "homepage": "https://github.com/melpst/node-example#readme",
   "dependencies": {
     "body-parser": "^1.16.0",
     "express": "^4.14.0",
