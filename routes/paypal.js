@@ -1,11 +1,15 @@
 const {Router} = require('express')
 const paypal = require('paypal-rest-sdk')
+const {Payment} = require('../models')
 
 const router = Router()
 
 router.get('/', (req,res) => res.send({success: true}))
 
-router.get('/payment', (req,res) => res.send({success: true}))
+router.get('/payment', (req,res) => {
+	Payment.find()
+	.then((data) => res.send(data))
+})
 
 router.post('/payment/create', (req, res) =>{
 	const create_payment_json = req.body
@@ -16,9 +20,12 @@ router.post('/payment/create', (req, res) =>{
 	        console.log("Create Payment Response")
 	        const redirect_link = payment.links.filter(link => link.rel === 'approval_url')[0].href
 	        console.log(payment)
-	        
-	        console.log('redirecting to '+ redirect_link)
-	        res.redirect(payment.httpStatusCode, redirect_link)       
+	        const trans = new Payment (payment)
+	        trans.save()
+	        .then((payment) => {
+	        	console.log('redirecting to '+ redirect_link)
+	        	res.status(payment.httpStatusCode).redirect(redirect_link)
+	        })      
 	    }
 	})
 
@@ -40,9 +47,13 @@ router.get('/payment/execute', (req, res) => {
 	        throw error
 	    } else {
 	        console.log("Get Payment Response")
-	        //res.send(payment)
 	        const redirect_link = payment.transactions[0].related_resources[0].authorization.links.filter(link => link.rel === 'self')[0].href
-	        res.redirect(payment.httpStatusCode, redirect_link)
+	        Payment.update({id: payment.id}, payment)
+  			.then((payment) => {
+  				console.log('redirecting to '+ redirect_link)
+  				res.status(payment.httpStatusCode).redirect(redirect_link)
+  			})
+	        
 	    }
 	})
 })
